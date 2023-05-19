@@ -1,5 +1,6 @@
 #include <LiquidCrystal_I2C.h>
 #include <WiFi.h>
+//
 //обьявление всех пинов для удобства 
 #define LED1              2
 #define LED2              5
