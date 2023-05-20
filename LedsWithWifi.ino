@@ -20,6 +20,7 @@
 #define LED16             33
 #define LEDS              LED1,LED2,LED3,LED4,LED5,LED6,LED7,LED8,LED9,LED10,LED11,LED12,LED13,LED14,LED15,LED16
 //массив со всем пинами подключенных к светодиодам 
+//byte=uint8_t 1 байт	0… 255	Целые числа
 uint8_t leds[] = { LEDS };
 //таблица включения светодиодов 
 uint8_t l2[]={LED7};
@@ -39,7 +40,7 @@ LiquidCrystal_I2C lcd(0x27,20,4);
 const char* ssid     = "ESP32";
 const char* password = "12345642";
  
-// Установливаем номер порта веб-сервера равным 80
+// Установливаем номер порта веб-сервера равным 80(Создает сервер который слушает входящие подключения на указанном порту)
 WiFiServer server(80);
  
 // Переменная для хранения HTTP-запроса
@@ -78,7 +79,7 @@ void setup() {
   Serial.println(IP);
   lcd.setCursor(11, 3);
   lcd.print("SKN Prod.");
-  server.begin();
+  server.begin();//Сообщает серверу, что нужно начать слушать входящие подключения
 }
 void loop(){
 
@@ -94,9 +95,9 @@ void loop(){
     while (client.connected()) {            // пока клиент подключен 
       if (client.available()) {             // если есть байты для чтения с клиента,
         char c = client.read();             // читаем 
-        Serial.write(c);                    // выводим сообщение
+        Serial.write(c);                    // выводим сообщение(двоичные данные)
         header += c;
-        if (c == '\n') {                    // новая строка
+        if (c == '\n') {                    // если байт является символом новой строки
           if (currentLine.length() == 0) {//если текущая строка =0 
             /////////////////////////////////////////////////////////////////////////running light 2.1
             if (header.indexOf("GET /26/on") >= 0) {
